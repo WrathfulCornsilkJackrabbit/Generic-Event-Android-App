@@ -20,7 +20,7 @@ public class LocaleManager {
     }
 
     private static void setLocale(Context context, String locale){
-        SPManager.setValue(context, SPManager.KEY_LOCALE, locale);
+        SPManager.setLocale(context, locale);
         Locale loc = new Locale(locale);
         Locale.setDefault(loc);
         Configuration cfg = new Configuration();

@@ -1,5 +1,6 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.ActivityContainerActivities;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.DetailsActivity;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
@@ -33,15 +36,26 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        ActivityModel activity = activitiesList.get(position);
+        final ActivityModel activityData = activitiesList.get(position);
 
-        holder.mTitleView.setText(activity.getTitle());
-        holder.mTimeStartView.setText(activity.getTime());
-        holder.mLocationView.setText(activity.getLocation());
-        holder.mImageView.setImageBitmap(activity.getImageId());
+        holder.mTitleView.setText(activityData.getTitle());
+        holder.mTimeStartView.setText(activityData.getTime());
+        holder.mLocationView.setText(activityData.getLocation());
+        holder.mImageView.setImageBitmap(activityData.getImageId());
+
+        holder.mReadMoreView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /// button click event
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra("ACTIVITY_DATA_POSITION", position);
+                v.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -59,13 +73,17 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
         protected TextView mTimeStartView;
         protected TextView mLocationView;
         protected ImageView mImageView;
+        protected TextView mReadMoreView;
 
         public ViewHolder(View v) {
             super(v);
+
             mTitleView = (TextView) v.findViewById(R.id.card_title);
             mTimeStartView = (TextView) v.findViewById(R.id.card_hour_start);
             mLocationView = (TextView) v.findViewById(R.id.card_location);
             mImageView = (ImageView) v.findViewById(R.id.card_image);
+
+            mReadMoreView = (TextView) v.findViewById(R.id.card_read_more);
         }
     }
 }

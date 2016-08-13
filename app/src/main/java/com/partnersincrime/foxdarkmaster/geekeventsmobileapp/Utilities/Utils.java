@@ -1,8 +1,11 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
  * Created by foxdarkmaster on 18-07-2016.
@@ -42,5 +45,13 @@ public class Utils {
         }
 
         return inSampleSize;
+    }
+
+    public static boolean isNetworkAvailable(Context context){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

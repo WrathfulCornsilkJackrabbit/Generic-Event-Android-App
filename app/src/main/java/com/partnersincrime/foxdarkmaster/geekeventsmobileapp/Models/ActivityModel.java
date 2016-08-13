@@ -6,12 +6,13 @@ import android.graphics.Bitmap;
  * Created by foxdarkmaster on 11-07-2016.
  */
 public class ActivityModel {
+    private int id;
     private String title;
     private String location;
     private String time;
     private Bitmap imageId;
 
-    ActivityModel() { }
+    public ActivityModel() { }
 
     public ActivityModel(String title, String location, String time, Bitmap imageId) {
         this.title = title;
@@ -47,4 +48,12 @@ public class ActivityModel {
     public Bitmap getImageId() { return imageId; }
 
     public void setImageId(Bitmap imageId) { this.imageId = imageId; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

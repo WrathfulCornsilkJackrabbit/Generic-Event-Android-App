@@ -72,6 +72,6 @@ public class ActivityNextFragment extends Fragment {
     }
 
     private Bitmap getTempImage() {
-        return decodeSampledBitmapFromResource(getResources(), R.drawable.dummy, 800, 600);
+        return decodeSampledBitmapFromResource(getResources(), R.drawable.dummy, 400, 200);
     }
 }

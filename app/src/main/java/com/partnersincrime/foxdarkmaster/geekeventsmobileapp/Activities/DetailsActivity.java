@@ -1,37 +1,34 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
-/**
- * Created by foxdarkmaster on 01-07-2016.
- */
-public class InfoActivity extends BaseActivity {
+public class DetailsActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.information_activity;
-    }
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.information_activity);
+        setContentView(R.layout.activity_details);
 
-        setActionBar();
+        setupToolbar();
+        setupData();
     }
 
-    private void setActionBar() {
+    private void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getResources().getString(R.string.activity_information_title));
+    }
+
+    private void setupData() {
+        //
     }
 }
-

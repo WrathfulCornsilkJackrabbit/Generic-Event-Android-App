@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GeekEventsMobileApp</string>
     <string name="action_settings">Definições</string>
     <string name="readMore">Ver Mais</string>
+    <string name="activity_information_title">Informações</string>
+    <string name="fragment_title_next">Próximo</string>
+    <string name="title_activity_activity_next_fragment">Próximo</string>
+    <string name="title_activity_details">Detalhes</string>
+    <string name="fragment_title_current">A Acontecer</string>
+    <string name="fragment_title_done">Terminados</string>
+    <string name="activity_menu_option_day_1">20 Agosto</string>
+    <string name="activity_menu_option_day_2">21 Agosto</string>
 </resources>

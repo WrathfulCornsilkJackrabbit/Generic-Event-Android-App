@@ -11,10 +11,10 @@ import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.LocaleMana
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private static final String TAG = "Base Activity";
     protected Toolbar toolbar;
     protected abstract int getLayoutResource();
+
+    private static final String TAG = "Base Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +24,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
 
-        Log.d(TAG, "Is toolbar available: " + (toolbar != null ? true : false));
-        Log.d(TAG, "Is toolbar available: " + (toolbar != null ? true : false));
-        Log.d(TAG, "Is toolbar available: " + (toolbar != null ? true : false));
-
         if (toolbar != null){
             setSupportActionBar(toolbar);
-
-            Log.d(TAG, "getSupportActionBar: " + (getSupportActionBar() != null ? true : false));
 
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setHomeButtonEnabled(true);

@@ -55,8 +55,6 @@ public class ActivityContainerActivities extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
-
-
     }
 
     private void setViews() {

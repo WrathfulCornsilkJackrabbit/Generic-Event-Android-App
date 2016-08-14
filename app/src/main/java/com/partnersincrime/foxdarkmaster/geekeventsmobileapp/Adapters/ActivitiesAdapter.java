@@ -2,25 +2,27 @@ package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.ActivityContainerActivities;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.DetailsActivity;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
 import java.util.List;
-
-import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils.decodeSampledBitmapFromResource;
 
 /**
  * Created by foxdarkmaster on 07-07-2016.
  */
 public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ViewHolder> {
+    private static final String TAG = "ActivitiesAdapter";
     private List<ActivityModel> activitiesList;
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -40,11 +42,26 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final ActivityModel activityData = activitiesList.get(position);
+        String imageUrl;
 
         holder.mTitleView.setText(activityData.getTitle());
-        holder.mTimeStartView.setText(activityData.getTime());
-        holder.mLocationView.setText(activityData.getLocation());
-        holder.mImageView.setImageBitmap(activityData.getImageId());
+        holder.mTimeStartView.setText(activityData.getStart().split(" ")[1]);
+        holder.mLocationView.setText(activityData.getPlace());
+
+        //holder.mImageView.setImageBitmap(activityData.getImageId());
+
+        if (activityData.hasImages()) {
+            imageUrl = Utils.getUrlForImage(activityData.getImage());
+        } else {
+            imageUrl = "http://dummyimage.com/vga";
+        }
+
+        Glide
+            .with(holder.mImageView.getContext())
+            .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            .into(holder.mImageView);
+
 
         holder.mReadMoreView.setOnClickListener(new View.OnClickListener() {
             @Override

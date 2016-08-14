@@ -6,11 +6,31 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers.ServerConnection;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by foxdarkmaster on 18-07-2016.
  */
 public class Utils {
+    private static final String TAG = "Utils";
+
+    public static String getUrlForImage(String image){
+        if (image != null && image.contains(".")){
+            if (image.contains("thumbnail")) {
+                image = image.replace("thumbnail", "slider");
+            }
+
+            return ServerConnection.SERVER_URL
+                    + image;
+        }
+
+        return null;
+    }
+
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -53,5 +73,10 @@ public class Utils {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static String getErrorString(Context context, int code) {
+        int eId = context.getResources().getIdentifier("error_" + code, "string", context.getPackageName());
+        return context.getResources().getString(eId);
     }
 }

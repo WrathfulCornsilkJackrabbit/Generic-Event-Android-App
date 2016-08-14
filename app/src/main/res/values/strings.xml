@@ -10,4 +10,8 @@
     <string name="fragment_title_done">Done</string>
     <string name="activity_menu_option_day_1">20 August</string>
     <string name="activity_menu_option_day_2">21 August</string>
+
+    // Erros - Internal 0
+    <string name="error_0">No data. Please connect to internet and restart the app</string>
+
 </resources>

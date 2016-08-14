@@ -12,16 +12,23 @@ public class LocaleManager {
     private static final String TAG = "LOCALE-MANAGER";
 
     public static void loadLocale(Context context) {
+        setLocale(context, "pt");
+
+        /*
         if (getCurrentLocale(context).startsWith("pt")){
             setLocale(context, "pt");
         } else {
             setLocale(context, "en");
         }
+        */
     }
 
     private static void setLocale(Context context, String locale){
-        SPManager.setLocale(context, locale);
-        Locale loc = new Locale(locale);
+        // Override settings SPManager.setLocale(context, locale);
+        //SPManager.setLocale(context, locale);
+        //Locale loc = new Locale(locale);
+        SPManager.setLocale(context, "pt");
+        Locale loc = new Locale("pt");
         Locale.setDefault(loc);
         Configuration cfg = new Configuration();
         cfg.locale = loc;

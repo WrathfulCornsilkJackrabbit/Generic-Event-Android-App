@@ -2,6 +2,7 @@ package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +11,6 @@ import org.json.JSONObject;
  * Created by foxdarkmaster on 12-08-2016.
  */
 public class DataTask extends AsyncTask<Object, Void, JSONObject> {
-
     private static final String TAG = "DataTask";
 
     public interface IConnectionListener {
@@ -23,11 +23,11 @@ public class DataTask extends AsyncTask<Object, Void, JSONObject> {
     public static final int ERROR_CONNECTING_TO_SERVER = 1000;
 
     private static final String[] METHODS = new String[] {
-            "Mobile"
+            "mobile"
     };
 
     private static final String[][] SOURCES = new String[][]{
-            new String[]{"getActivities"}
+            new String[] {"actividades_evento"}
     };
 
     private IConnectionListener mListener;
@@ -81,8 +81,14 @@ public class DataTask extends AsyncTask<Object, Void, JSONObject> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else if(jsonObject.has("data")){
+        } else if (jsonObject.has("data")) {
             mListener.onResult(jsonObject);
+        } else if (jsonObject.has("2016-08-20") && jsonObject.has("2016-08-21")) {
+            mListener.onResult(jsonObject);
+
+            // TODO TEMP BYPASS
+            // TODO TEMP WAITING FOR MIGUEL's APROVAL OF BRANCH MERGE
+            // TODO TEMP REMOVE ABOVE AFTER APROVAL. ALSO REMOVE THIS CONDITION
         } else {
             mListener.onError(500);
         }
@@ -90,7 +96,7 @@ public class DataTask extends AsyncTask<Object, Void, JSONObject> {
 
     @Override
     protected void onCancelled(JSONObject jsonObject) {
-        if(jsonObject == null){
+        if (jsonObject == null) {
             mListener.onError(ERROR_CONNECTING_TO_SERVER);
         } else {
             mListener.onError(0);

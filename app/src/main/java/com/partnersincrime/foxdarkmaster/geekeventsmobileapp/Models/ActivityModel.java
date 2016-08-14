@@ -8,33 +8,37 @@ import android.graphics.Bitmap;
 public class ActivityModel {
     private int id;
     private String title;
-    private String location;
-    private String time;
+    private String place;
+    private String start;
     private Bitmap imageId;
+    private String image;
+    private String descr;
+
+
 
     public ActivityModel() { }
 
-    public ActivityModel(String title, String location, String time, Bitmap imageId) {
+    public ActivityModel(String title, String place, String start, String image) {
         this.title = title;
-        this.location = location;
-        this.time = time;
-        this.imageId = imageId;
+        this.place = place;
+        this.start = start;
+        this.image = image;
     }
 
-    public String getTime() {
-        return time;
+    public String getStart() {
+        return start;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setStart(String start) {
+        this.start = start;
     }
 
-    public String getLocation() {
-        return location;
+    public String getPlace() {
+        return place;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public String getTitle() {
@@ -55,5 +59,25 @@ public class ActivityModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public boolean hasImages() {
+        return this.image != null ? true : false;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

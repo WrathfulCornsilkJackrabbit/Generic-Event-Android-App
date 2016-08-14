@@ -5,15 +5,19 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.ActivitiesAdapter;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils.decodeSampledBitmapFromResource;
@@ -22,10 +26,18 @@ import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Ut
  * A placeholder fragment containing a simple view.
  */
 public class ActivityNextFragment extends Fragment {
+    private static final String TAG = "ActivityNextFragment";
     View rootView;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLayoutManager;
     ActivitiesAdapter mAdapter;
+
+    ActivityModel activities;
+
+    //
+
+    ActivityModel day1[];
+    ActivityModel day2[];
 
     List<ActivityModel> dataSet;
 
@@ -40,6 +52,34 @@ public class ActivityNextFragment extends Fragment {
         setData();
     }
 
+    private void setData() {
+        String activitiesDay1 = SPManager.getActivitiesByDay(getContext(), 1);
+        String activitiesDay2 = SPManager.getActivitiesByDay(getContext(), 2);
+
+        day1 = new Gson().fromJson(activitiesDay1, ActivityModel[].class);
+        day2 = new Gson().fromJson(activitiesDay2, ActivityModel[].class);
+
+
+        //activities = new Gson().fromJson(SPManager.getActivities(getContext()), ActivityModel.class);
+        //activities = new Gson().fromJson(result.getJSONArray("data").toString(), ActivityModel[].class);
+        //EventManager.getInstance().setDayEventsMap(events);
+
+
+        /*
+        // Test Activities
+        dataSet = new ArrayList<>();
+        dataSet.add(new ActivityModel("Lorem ipsum dolor sit amet, agam melius 1", "Palco A", "10h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 2", "Palco B", "11h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 3", "Palco C", "12h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 4", "Palco D", "13h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 5", "Palco D", "13h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 6", "Palco D", "13h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 7", "Palco D", "13h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 8", "Palco D", "13h00", getTempImage()));
+        dataSet.add(new ActivityModel("Test Title 9", "Palco D", "13h00", getTempImage()));
+        */
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,23 +92,12 @@ public class ActivityNextFragment extends Fragment {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ActivitiesAdapter(dataSet);
+        // TODO WORKING
+        //mAdapter = new ActivitiesAdapter(dataSet);
+        mAdapter = new ActivitiesAdapter(Arrays.asList(day1));
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
-    }
-
-    private void setData() {
-        dataSet = new ArrayList<>();
-        dataSet.add(new ActivityModel("Lorem ipsum dolor sit amet, agam melius 1", "Palco A", "10h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 2", "Palco B", "11h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 3", "Palco C", "12h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 4", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 5", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 6", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 7", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 8", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 9", "Palco D", "13h00", getTempImage()));
     }
 
     private Bitmap getTempImage() {

@@ -8,24 +8,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers.DataTask;
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.fabric.sdk.android.Fabric;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataTask.IConnectionListener {
 
     private static final String TAG = "MainActivity";
 
     private AsyncTask task;
+    private ActivityModel activities;
 
     private Toolbar toolbar;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.main_activity_menu);
 
         setActionBar();
-        setupData();
+        getOnlineData();
         setupInterface();
     }
 
@@ -48,22 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
     }
 
-    private void setupData() {
-
+    private void getOnlineData() {
         if (Utils.isNetworkAvailable(this)) {
             task = new DataTask(this, DataTask.ACTIVITIES_GET, this);
             task.execute();
-        } else {
-            // TODO load default data
         }
-
-
-
-
-        // ActivitiesManager.getInstance();
     }
 
     private void setupInterface() {
@@ -76,11 +68,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonInformation.setOnClickListener(this);
     }
 
+    private void setupData() {
+        // TODO
+        //activities = new Gson().fromJson(SPManager.getActivities(this), ActivityModel.class);
+        //ActivitiesManager.getInstance().setDayActivitiesMap(activities);
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == buttonActivities.getId()) {
-            Intent intent = new Intent(this, ActivityContainerActivities.class);
-            startActivity(intent);
+            if (checkIfDataIsPresent()) {
+                Intent intent = new Intent(this, ActivityContainerActivities.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MainActivity.this,
+                        Utils.getErrorString(MainActivity.this, 0),
+                        Toast.LENGTH_LONG).show();
+            }
         } else if (v.getId() == buttonMap.getId()) {
             Intent intent = new Intent(this, MapActivity.class);
             startActivity(intent);
@@ -90,6 +94,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private boolean checkIfDataIsPresent() {
+        ActivityModel activitiesDay1[] = new Gson().fromJson(SPManager.getActivitiesByDay(this, 1), ActivityModel[].class);
+        ActivityModel activitiesDay2[] = new Gson().fromJson(SPManager.getActivitiesByDay(this, 2), ActivityModel[].class);
+
+        // categories = new Gson().fromJson(result.getJSONArray("data").toString(), CategoryModel[].class);
+
+        if (activitiesDay1 != null && activitiesDay2 != null) {
+            return true;
+        } else {
+            return false;
+        }
+
+        //return activitiesDay1 != null ? true : false;
+
+    }
+
     @Override
     public void onPre() {
         // TODO Show progress bar
@@ -97,28 +117,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResult(JSONObject result) {
-        Log.d(TAG, "DEBUG onResult");
-
         try {
-            SPManager.setActivities(this, result.getJSONArray("data").toString());
+            //SPManager.setActivities(this, result.getJSONObject("data").toString());
+
+            String resultDay1 = result.getJSONArray("2016-08-20").toString();
+            SPManager.setActivitiesByDay(this, 1, resultDay1);
+
+            String resultDay2 = result.getJSONArray("2016-08-21").toString();
+            SPManager.setActivitiesByDay(this, 2, resultDay2);
+
+            // TODO TEMP BYPASS
+            // TODO TEMP WAITING FOR MIGUEL's APROVAL OF BRANCH MERGE
+            // TODO TEMP REMOVE ABOVE AFTER APROVAL
+
+            /*
+            JSONObject resultDay1 = result.getJSONObject("data")
+                    .getJSONObject("2016-08-20");
+            SPManager.setActivitiesByDay(this, 1, resultDay1.toString());
+
+            JSONObject resultDay2 = result.getJSONObject("data")
+                    .getJSONObject("2016-08-21");
+            SPManager.setActivitiesByDay(this, 2, resultDay2.toString());
+            */
         } catch(JSONException e) {
             e.printStackTrace();
         }
-
-
-
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-        Log.d(TAG, "DEBUG onResult :D");
-
-        Log.d(TAG, "DEBUG onResult: " + result);
     }
 
     @Override

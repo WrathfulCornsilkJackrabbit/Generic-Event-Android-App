@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.DetailsActivity;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
@@ -67,8 +68,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             @Override
             public void onClick(View v) {
                 /// button click event
+                ActivitiesManager.getInstance().setCurrentActivityHolder(activityData);
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.putExtra("ACTIVITY_DATA_POSITION", position);
                 v.getContext().startActivity(intent);
             }
         });

@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TabHost;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityCurrentFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityDoneFragment;

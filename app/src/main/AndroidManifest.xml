@@ -54,6 +54,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities.ActivityContainerActivities" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b00976b752326bde7f3c645a1fb1489e20d11a35" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

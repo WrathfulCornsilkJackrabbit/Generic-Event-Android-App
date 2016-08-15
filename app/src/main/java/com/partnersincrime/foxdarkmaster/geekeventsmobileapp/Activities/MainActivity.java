@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers.DataTask;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
@@ -18,6 +19,7 @@ import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityMode
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main_activity_menu);
 
         setActionBar();
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResult(JSONObject result) {
+
         try {
             //SPManager.setActivities(this, result.getJSONObject("data").toString());
 
@@ -141,6 +144,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .getJSONObject("2016-08-21");
             SPManager.setActivitiesByDay(this, 2, resultDay2.toString());
             */
+
+            setupData();
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String resultDay1 = result.getJSONObject("data")
+                    .getJSONObject("2016-08-20")
+                    .toString();
+            SPManager.setActivitiesByDay(this, 1, resultDay1);
+
+            String resultDay2 = result.getJSONObject("data")
+                    .getJSONObject("2016-08-21")
+                    .toString();
+            SPManager.setActivitiesByDay(this, 2, resultDay2);
+
 
             setupData();
         } catch(JSONException e) {

@@ -22,6 +22,8 @@ public class ActivitiesManager {
     private Context currentContent;
     private int currentDay;
 
+    private ActivityModel activityToHold;
+
     private static ActivitiesManager ourInstance = new ActivitiesManager();
 
     public static ActivitiesManager getInstance() {
@@ -107,12 +109,6 @@ public class ActivitiesManager {
     }
 
     public ActivityModel[] getCurrentActivitiesData() {
-        // TODO WORKING
-        // TODO WORKING
-        // TODO WORKING
-        // TODO WORKING
-        // TODO WORKING
-
         ActivityModel listOfActivitiesOfToday[];
         ActivityModel[] resultArray;
         List<ActivityModel> listOfNextActivities = new ArrayList<>();
@@ -197,5 +193,13 @@ public class ActivitiesManager {
 
             return resultArray;
         }
+    }
+
+    public void setCurrentActivityHolder(ActivityModel activityToHold) {
+        this.activityToHold = activityToHold;
+    }
+
+    public ActivityModel getActivityToHold() {
+        return activityToHold;
     }
 }

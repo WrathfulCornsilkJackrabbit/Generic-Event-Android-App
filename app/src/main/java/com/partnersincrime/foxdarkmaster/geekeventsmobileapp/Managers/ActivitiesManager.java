@@ -1,18 +1,28 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by foxdarkmaster on 09-08-2016.
  */
 public class ActivitiesManager {
-    private static ActivitiesManager ourInstance = new ActivitiesManager();
-    private LinkedHashMap<String, ArrayList<ActivityModel>> dayActivitiesMap = new LinkedHashMap<>();
+    private static final String TAG = "AManager";
+    private ActivityModel day1[];
+    private ActivityModel day2[];
+    private Context currentContent;
+    private int currentDay;
 
+    private static ActivitiesManager ourInstance = new ActivitiesManager();
 
     public static ActivitiesManager getInstance() {
         return ourInstance;
@@ -20,45 +30,172 @@ public class ActivitiesManager {
 
     private ActivitiesManager() { }
 
-    public void setDayActivitiesMap(ActivityModel[] activities) {
-        dayActivitiesMap.clear();
+    // TODO Working
 
-        for (ActivityModel activity : activities) {
-            dayActivitiesMap.put(activity.getTitle(), new ArrayList<ActivityModel>());
-        }
-
-        for (Map.Entry<String, ArrayList<ActivityModel>> entry : dayActivitiesMap.entrySet()) {
-            String key = entry.getKey();
-
-            for (ActivityModel activity : activities) {
-                if (activity.getTitle().equals(key)) {
-                    entry.getValue().add(activity);
-                }
-            }
-        }
+    public void setCurrentContent(Context content) {
+        this.currentContent = content;
     }
 
-    public LinkedHashMap<String, ArrayList<ActivityModel>> getDayActivitiesMap() {
-        return dayActivitiesMap;
+    public Context getCurrentContent() {
+        return this.currentContent;
     }
 
-    public ArrayList<ActivityModel> getAllActivitiesOfDay(String day) {
-        if (dayActivitiesMap.containsValue(day)) {
-            return dayActivitiesMap.get(day);
-        }
+    public void setupData() {
+        String activitiesDay1 = SPManager.getActivitiesByDay(getCurrentContent(), 1);
+        String activitiesDay2 = SPManager.getActivitiesByDay(getCurrentContent(), 2);
 
-        return null;
+        day1 = new Gson().fromJson(activitiesDay1, ActivityModel[].class);
+        day2 = new Gson().fromJson(activitiesDay2, ActivityModel[].class);
     }
 
-    public ActivityModel getActivityById(int id){
-        for (Map.Entry<String, ArrayList<ActivityModel>> entry : dayActivitiesMap.entrySet()) {
-            for (ActivityModel activity : entry.getValue()) {
-                if (activity.getId() == id) {
-                    return activity;
-                }
+    public int getActivitiesSelectedDay() {
+        String currentDate;
+
+        if (this.currentDay == 0) {
+            currentDate = Utils.getCurrentDate();
+
+            if (currentDate.equals("2016-08-20")) {
+                this.currentDay = 1;
+            } else if (currentDate.equals("2016-08-21")) {
+                this.currentDay = 2;
+            } else {
+                this.currentDay = 1;
             }
         }
 
-        return null;
+        return this.currentDay;
+    }
+
+    public void setActivitiesSelectedDay(int currentDay) {
+        if (currentDay > 0 && currentDay < 3) {
+            this.currentDay = currentDay;
+        }
+    }
+
+    public ActivityModel[] getNextActivitiesData() {
+        ActivityModel listOfActivitiesOfToday[];
+        ActivityModel[] resultArray;
+        List<ActivityModel> listOfNextActivities = new ArrayList<>();
+        String activityTime;
+
+        if (getActivitiesSelectedDay() == 1) {
+            listOfActivitiesOfToday = day1;
+        } else {
+            listOfActivitiesOfToday = day2;
+        }
+
+        if (Utils.isTodayBeforeEvent()
+                && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
+            return listOfActivitiesOfToday;
+        } else if (Utils.isTodayDay1OfEvent()
+                && getActivitiesSelectedDay() == 2) {
+            return listOfActivitiesOfToday;
+        } else {
+            for (ActivityModel activity : listOfActivitiesOfToday) {
+                activityTime = activity.getStart().split(" ")[1];
+
+                if (!Utils.isCurrentTimeBiggerThan(activityTime)) {
+                    listOfNextActivities.add(activity);
+                }
+            }
+
+            resultArray = new ActivityModel[ listOfNextActivities.size() ];
+            listOfNextActivities.toArray( resultArray );
+
+            return resultArray;
+        }
+    }
+
+    public ActivityModel[] getCurrentActivitiesData() {
+        // TODO WORKING
+        // TODO WORKING
+        // TODO WORKING
+        // TODO WORKING
+        // TODO WORKING
+
+        ActivityModel listOfActivitiesOfToday[];
+        ActivityModel[] resultArray;
+        List<ActivityModel> listOfNextActivities = new ArrayList<>();
+        String activityTime;
+
+        if (getActivitiesSelectedDay() == 1) {
+            listOfActivitiesOfToday = day1;
+        } else {
+            listOfActivitiesOfToday = day2;
+        }
+
+        Log.d(TAG, "DEBUG ");
+        Log.d(TAG, "DEBUG Utils.isTodayBeforeEvent(): " + Utils.isTodayBeforeEvent());
+        Log.d(TAG, "DEBUG getActivitiesSelectedDay(): " + getActivitiesSelectedDay());
+        Log.d(TAG, "DEBUG Utils.isTodayDay1OfEvent(): " + Utils.isTodayDay1OfEvent());
+
+        if (Utils.isTodayBeforeEvent()) {
+            return null;
+        } else if (Utils.isTodayAfterEvent()) {
+            return null;
+        } else if (
+                (this.currentDay == 1 && Utils.isTodayDay1OfEvent()) ||
+                (this.currentDay == 2 && Utils.isTodayDay2OfEvent())
+              ) {
+            for (ActivityModel activity : listOfActivitiesOfToday) {
+                activityTime = activity.getStart().split(" ")[1];
+
+                if (Utils.isActivityCurrent(activityTime)) {
+                    Log.d(TAG, "DEBUG activityTime: " + activityTime);
+                    Log.d(TAG, "DEBUG Utils.isActivityDone(activityTime): " + Utils.isActivityDone(activityTime));
+
+                    listOfNextActivities.add(activity);
+                }
+            }
+
+            resultArray = new ActivityModel[ listOfNextActivities.size() ];
+            listOfNextActivities.toArray( resultArray );
+
+            return resultArray;
+        } else {
+            return null;
+        }
+    }
+
+    public ActivityModel[] getDoneActivitiesData() {
+        ActivityModel listOfActivitiesOfToday[];
+        ActivityModel[] resultArray;
+        List<ActivityModel> listOfNextActivities = new ArrayList<>();
+        String activityTime;
+
+        if (getActivitiesSelectedDay() == 1) {
+            listOfActivitiesOfToday = day1;
+        } else {
+            listOfActivitiesOfToday = day2;
+        }
+
+        Log.d(TAG, "DEBUG ");
+        Log.d(TAG, "DEBUG Utils.isTodayBeforeEvent(): " + Utils.isTodayBeforeEvent());
+        Log.d(TAG, "DEBUG getActivitiesSelectedDay(): " + getActivitiesSelectedDay());
+        Log.d(TAG, "DEBUG Utils.isTodayDay1OfEvent(): " + Utils.isTodayDay1OfEvent());
+
+        if (Utils.isTodayBeforeEvent()
+                && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
+            return null;
+        } else if (Utils.isTodayDay1OfEvent()
+                && getActivitiesSelectedDay() == 2) {
+            return null;
+        } else {
+            for (ActivityModel activity : listOfActivitiesOfToday) {
+                activityTime = activity.getStart().split(" ")[1];
+
+                if (Utils.isActivityDone(activityTime)) {
+                    Log.d(TAG, "DEBUG activityTime: " + activityTime);
+                    Log.d(TAG, "DEBUG Utils.isActivityDone(activityTime): " + Utils.isActivityDone(activityTime));
+
+                    listOfNextActivities.add(activity);
+                }
+            }
+
+            resultArray = new ActivityModel[ listOfNextActivities.size() ];
+            listOfNextActivities.toArray( resultArray );
+
+            return resultArray;
+        }
     }
 }

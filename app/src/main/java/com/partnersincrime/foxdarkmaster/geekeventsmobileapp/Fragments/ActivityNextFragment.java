@@ -5,20 +5,17 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.ActivitiesAdapter;
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils.decodeSampledBitmapFromResource;
 
@@ -28,18 +25,12 @@ import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Ut
 public class ActivityNextFragment extends Fragment {
     private static final String TAG = "ActivityNextFragment";
     View rootView;
+    TextView mEmptyView;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLayoutManager;
     ActivitiesAdapter mAdapter;
+    ActivityModel currentDay[];
 
-    ActivityModel activities;
-
-    //
-
-    ActivityModel day1[];
-    ActivityModel day2[];
-
-    List<ActivityModel> dataSet;
 
     public ActivityNextFragment() {
         // Required empty public constructor
@@ -53,17 +44,7 @@ public class ActivityNextFragment extends Fragment {
     }
 
     private void setData() {
-        String activitiesDay1 = SPManager.getActivitiesByDay(getContext(), 1);
-        String activitiesDay2 = SPManager.getActivitiesByDay(getContext(), 2);
-
-        day1 = new Gson().fromJson(activitiesDay1, ActivityModel[].class);
-        day2 = new Gson().fromJson(activitiesDay2, ActivityModel[].class);
-
-
-        //activities = new Gson().fromJson(SPManager.getActivities(getContext()), ActivityModel.class);
-        //activities = new Gson().fromJson(result.getJSONArray("data").toString(), ActivityModel[].class);
-        //EventManager.getInstance().setDayEventsMap(events);
-
+        currentDay = ActivitiesManager.getInstance().getNextActivitiesData();
 
         /*
         // Test Activities
@@ -83,19 +64,28 @@ public class ActivityNextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_activity_next_fragment, container, false);
-
+        rootView = inflater.inflate(R.layout.fragment_activity, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_activities);
-        mRecyclerView.setHasFixedSize(true);
+        mEmptyView = (TextView) rootView.findViewById(R.id.empty_view);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        if (currentDay == null) {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
 
-        // TODO WORKING
-        //mAdapter = new ActivitiesAdapter(dataSet);
-        mAdapter = new ActivitiesAdapter(Arrays.asList(day1));
-        mRecyclerView.setAdapter(mAdapter);
+            //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_activities);
+            mRecyclerView.setHasFixedSize(true);
+
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+            mAdapter = new ActivitiesAdapter(Arrays.asList(currentDay));
+            mRecyclerView.setAdapter(mAdapter);
+        }
 
         return rootView;
     }

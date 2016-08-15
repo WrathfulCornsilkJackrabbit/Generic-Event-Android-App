@@ -10,12 +10,21 @@ import android.util.Log;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers.ServerConnection;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
  * Created by foxdarkmaster on 18-07-2016.
  */
 public class Utils {
+    public static int DAY_ONE_OF_EVENT = 20;
+    public static int DAY_TWO_OF_EVENT = 21;
+    public static int MONTH_OF_THE_EVENT = 8;
+    public static int YEAR_OF_THE_EVENT = 2016;
+
     private static final String TAG = "Utils";
 
     public static String getUrlForImage(String image){
@@ -78,5 +87,138 @@ public class Utils {
     public static String getErrorString(Context context, int code) {
         int eId = context.getResources().getIdentifier("error_" + code, "string", context.getPackageName());
         return context.getResources().getString(eId);
+    }
+
+    public static String getCurrentDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        return dateFormat.format(new Date());
+    }
+
+    public static int getCurrentYear() {
+        Calendar calendar = Calendar.getInstance();
+
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public static int getCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+
+        return calendar.get(Calendar.MONTH) + 1;
+    }
+
+    public static int getCurrentDay() {
+        Calendar calendar = Calendar.getInstance();
+
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+
+        return hours + ":" + minutes;
+    }
+
+    public static boolean isCurrentTimeBiggerThan(String timeToCompare) {
+        String currentTime = Utils.getCurrentTime();
+        int hourCurrentTime = Integer.parseInt(currentTime.split(":")[0]);
+        int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
+        int minutesCurrentTime = Integer.parseInt(currentTime.split(":")[1]);
+        int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
+
+        if (hourCurrentTime > hourCompareTime) {
+            return true;
+        } else if (hourCurrentTime == hourCompareTime) {
+            if (minutesCurrentTime > minutesCompareTime) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isTodayBeforeEvent() {
+        if (Utils.getCurrentYear() == YEAR_OF_THE_EVENT
+                && Utils.getCurrentMonth() <= MONTH_OF_THE_EVENT
+                && Utils.getCurrentDay() < DAY_ONE_OF_EVENT) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isTodayAfterEvent() {
+        if (Utils.getCurrentYear() == YEAR_OF_THE_EVENT
+                && Utils.getCurrentMonth() >= MONTH_OF_THE_EVENT
+                && Utils.getCurrentDay() > DAY_TWO_OF_EVENT) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isTodayDay1OfEvent() {
+        if (Utils.getCurrentYear() == YEAR_OF_THE_EVENT
+                && Utils.getCurrentMonth() == MONTH_OF_THE_EVENT
+                && Utils.getCurrentDay() == DAY_ONE_OF_EVENT) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isTodayDay2OfEvent() {
+        if (Utils.getCurrentYear() == YEAR_OF_THE_EVENT
+                && Utils.getCurrentMonth() == MONTH_OF_THE_EVENT
+                && Utils.getCurrentDay() == DAY_TWO_OF_EVENT) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isActivityCurrent(String timeToCompare) {
+        String currentTime = Utils.getCurrentTime();
+        int hourCurrentTime = Integer.parseInt(currentTime.split(":")[0]);
+        int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
+        int minutesCurrentTime = Integer.parseInt(currentTime.split(":")[1]);
+        int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
+
+        if (Math.abs(hourCurrentTime - hourCompareTime) == 0) {
+            return true;
+        } else if (hourCompareTime <= hourCurrentTime
+                && Math.abs(hourCurrentTime - hourCompareTime) <= 1) {
+            if ((60 - minutesCompareTime) + minutesCurrentTime >= 60) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isActivityDone(String timeToCompare) {
+        String currentTime = Utils.getCurrentTime();
+        int hourCurrentTime = Integer.parseInt(currentTime.split(":")[0]);
+        int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
+
+
+
+        if (isTodayBeforeEvent()) {
+            return false;
+        } else if (isTodayAfterEvent()) {
+            return true;
+        } else {
+            if (Math.abs(hourCurrentTime - hourCompareTime) >= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }

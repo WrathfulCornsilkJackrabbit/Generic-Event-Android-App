@@ -13,5 +13,6 @@
 
     // Erros - Internal 0
     <string name="error_0">No data. Please connect to internet and restart the app</string>
+    <string name="recycler_error_no_activities">No Activities</string>
 
 </resources>

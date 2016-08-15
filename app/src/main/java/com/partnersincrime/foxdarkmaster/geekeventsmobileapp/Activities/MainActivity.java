@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Handlers.DataTask;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (Utils.isNetworkAvailable(this)) {
             task = new DataTask(this, DataTask.ACTIVITIES_GET, this);
             task.execute();
+        } else {
+            setupData();
         }
     }
 
@@ -69,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupData() {
-        // TODO
-        //activities = new Gson().fromJson(SPManager.getActivities(this), ActivityModel.class);
-        //ActivitiesManager.getInstance().setDayActivitiesMap(activities);
+        ActivitiesManager.getInstance().setCurrentContent(this);
+        ActivitiesManager.getInstance().setupData();
     }
 
     @Override
@@ -139,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .getJSONObject("2016-08-21");
             SPManager.setActivitiesByDay(this, 2, resultDay2.toString());
             */
+
+            setupData();
         } catch(JSONException e) {
             e.printStackTrace();
         }
@@ -148,5 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onError(int code) {
         // TODO Hide progress bar
         Log.d(TAG, "DEBUG onError: " + code);
+
+        setupData();
     }
 }

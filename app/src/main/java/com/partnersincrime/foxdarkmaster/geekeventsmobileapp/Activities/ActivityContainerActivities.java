@@ -1,5 +1,6 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,13 +10,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityCurrentFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityDoneFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityNextFragment;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,10 @@ public class ActivityContainerActivities extends BaseActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private String activitiesDay;
+
+    private static final String TAG = "Activities";
 
     @Override
     protected int getLayoutResource() {
@@ -74,6 +83,22 @@ public class ActivityContainerActivities extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_day_1:
+                Log.d(TAG, "DEBUG Click on option 1 :D");
+
+                ActivitiesManager.getInstance().setActivitiesSelectedDay(1);
+                Log.d(TAG, "DEBUG Activities Manager: " + ActivitiesManager.getInstance().getActivitiesSelectedDay());
+
+                setViews();
+                return true;
+            case R.id.action_day_2:
+                Log.d(TAG, "DEBUG Click on option 2 :D");
+
+                ActivitiesManager.getInstance().setActivitiesSelectedDay(2);
+                Log.d(TAG, "DEBUG Activities Manager: " + ActivitiesManager.getInstance().getActivitiesSelectedDay());
+
+                setViews();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

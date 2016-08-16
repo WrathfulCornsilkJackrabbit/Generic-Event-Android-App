@@ -1,11 +1,13 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by foxdarkmaster on 11-07-2016.
  */
-public class ActivityModel {
+public class ActivityModel implements Parcelable{
     private int id;
     private String title;
     private String place;
@@ -24,6 +26,28 @@ public class ActivityModel {
         this.start = start;
         this.image = image;
     }
+
+    protected ActivityModel(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        place = in.readString();
+        start = in.readString();
+        imageId = in.readParcelable(Bitmap.class.getClassLoader());
+        image = in.readString();
+        descr = in.readString();
+    }
+
+    public static final Creator<ActivityModel> CREATOR = new Creator<ActivityModel>() {
+        @Override
+        public ActivityModel createFromParcel(Parcel in) {
+            return new ActivityModel(in);
+        }
+
+        @Override
+        public ActivityModel[] newArray(int size) {
+            return new ActivityModel[size];
+        }
+    };
 
     public String getStart() {
         return start;
@@ -79,5 +103,21 @@ public class ActivityModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(place);
+        parcel.writeString(start);
+        parcel.writeParcelable(imageId, i);
+        parcel.writeString(image);
+        parcel.writeString(descr);
     }
 }

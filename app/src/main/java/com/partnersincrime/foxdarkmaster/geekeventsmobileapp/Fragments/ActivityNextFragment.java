@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.ActivitiesAdapter;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.MainPagerAdapter;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
@@ -23,7 +24,6 @@ import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Ut
  * A placeholder fragment containing a simple view.
  */
 public class ActivityNextFragment extends Fragment {
-    private static final String TAG = "ActivityNextFragment";
     View rootView;
     TextView mEmptyView;
     RecyclerView mRecyclerView;
@@ -31,34 +31,32 @@ public class ActivityNextFragment extends Fragment {
     ActivitiesAdapter mAdapter;
     ActivityModel currentDay[];
 
+    private int mType;
+    private String title;
 
-    public ActivityNextFragment() {
-        // Required empty public constructor
+
+
+    public Fragment newInstance(int type, String title) {
+        Fragment frag = new MainFragment();
+
+        Bundle args = new Bundle();
+
+
+        frag.setArguments(args);
+        return frag;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setData();
     }
 
-    private void setData() {
+    public void setData() {
         currentDay = ActivitiesManager.getInstance().getNextActivitiesData();
-
-        /*
-        // Test Activities
-        dataSet = new ArrayList<>();
-        dataSet.add(new ActivityModel("Lorem ipsum dolor sit amet, agam melius 1", "Palco A", "10h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 2", "Palco B", "11h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 3", "Palco C", "12h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 4", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 5", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 6", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 7", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 8", "Palco D", "13h00", getTempImage()));
-        dataSet.add(new ActivityModel("Test Title 9", "Palco D", "13h00", getTempImage()));
-        */
     }
 
     @Override
@@ -92,5 +90,10 @@ public class ActivityNextFragment extends Fragment {
 
     private Bitmap getTempImage() {
         return decodeSampledBitmapFromResource(getResources(), R.drawable.dummy, 400, 200);
+    }
+
+
+    public String getTitle() {
+        return title;
     }
 }

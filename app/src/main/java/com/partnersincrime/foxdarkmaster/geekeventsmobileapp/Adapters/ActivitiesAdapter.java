@@ -17,39 +17,36 @@ import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityMode
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by foxdarkmaster on 07-07-2016.
  */
 public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ViewHolder> {
-    private static final String TAG = "ActivitiesAdapter";
     private List<ActivityModel> activitiesList;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
+    private static final String TAG = "ActivitiesAdapter";
+
+
     public ActivitiesAdapter(List<ActivityModel> activitiesList) {
         this.activitiesList = activitiesList;
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+
     @Override
     public int getItemCount() {
         return activitiesList.size();
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         final ActivityModel activityData = activitiesList.get(position);
         String imageUrl;
 
         holder.mTitleView.setText(activityData.getTitle());
         holder.mTimeStartView.setText(activityData.getStart().split(" ")[1]);
         holder.mLocationView.setText(activityData.getPlace());
-
-        //holder.mImageView.setImageBitmap(activityData.getImageId());
 
         if (activityData.hasImages()) {
             imageUrl = Utils.getUrlForImage(activityData.getImage());
@@ -63,20 +60,27 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .into(holder.mImageView);
 
-
         holder.mReadMoreView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /// button click event
                 ActivitiesManager.getInstance().setCurrentActivityHolder(activityData);
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                // intent.putExtra("KEY", activitiesList.get(position));
                 v.getContext().startActivity(intent);
             }
         });
 
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivitiesManager.getInstance().setCurrentActivityHolder(activityData);
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                // intent.putExtra("KEY", activitiesList.get(position));
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public ActivitiesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
@@ -84,6 +88,10 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
                 .inflate(R.layout.activity_card, parent, false);
 
         return new ViewHolder(v);
+    }
+
+    public void reloadData(ActivityModel[] currentDay) {
+        this.activitiesList = Arrays.asList(currentDay);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

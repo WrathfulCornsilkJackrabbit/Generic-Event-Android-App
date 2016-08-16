@@ -1,26 +1,38 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.ActivitiesAdapter;
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.MainPagerAdapter;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models.ActivityModel;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
 import java.util.Arrays;
 
+import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils.decodeSampledBitmapFromResource;
+
 /**
- * A placeholder fragment containing a simple view.
+ * Created by foxdarkmaster on 16-08-2016.
  */
-public class ActivityDoneFragment extends Fragment {
+public class MainFragment extends Fragment {
+    public static final int TYPE_NEXT = 0;
+    public static final int TYPE_CURRENT = 1;
+    public static final int TYPE_DONE = 2;
+    private static final String KEY_TYPE = "TypeKey";
+
+    private static final String KEY_TITLE = "TitleKey";
+
+    private static final String TAG = "ActivityNextFragment";
+
     View rootView;
     TextView mEmptyView;
     RecyclerView mRecyclerView;
@@ -28,17 +40,48 @@ public class ActivityDoneFragment extends Fragment {
     ActivitiesAdapter mAdapter;
     ActivityModel currentDay[];
 
-    public ActivityDoneFragment() {
+    private int mType;
+    private String title;
+
+
+    public static MainFragment newInstance(int type, String title) {
+        MainFragment frag = new MainFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(KEY_TYPE, type);
+        args.putString(KEY_TITLE, title);
+
+        frag.setArguments(args);
+        return frag;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        title = getArguments().getString(KEY_TITLE);
+        mType = getArguments().getInt(KEY_TYPE);
+
         setData();
     }
 
     public void setData() {
-        currentDay = ActivitiesManager.getInstance().getDoneActivitiesData();
+        switch (mType) {
+            case TYPE_NEXT:
+                currentDay = ActivitiesManager.getInstance().getNextActivitiesData();
+                break;
+            case TYPE_CURRENT:
+                currentDay = ActivitiesManager.getInstance().getCurrentActivitiesData();
+                break;
+            case TYPE_DONE:
+                currentDay = ActivitiesManager.getInstance().getDoneActivitiesData();
+                break;
+        }
+
+        if (mAdapter != null) {
+            mAdapter.reloadData(currentDay);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -55,7 +98,6 @@ public class ActivityDoneFragment extends Fragment {
             mRecyclerView.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
 
-            //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_activities);
             mRecyclerView.setHasFixedSize(true);
 
             mLayoutManager = new LinearLayoutManager(getActivity());
@@ -68,5 +110,18 @@ public class ActivityDoneFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    private Bitmap getTempImage() {
+        return decodeSampledBitmapFromResource(getResources(), R.drawable.dummy, 400, 200);
+    }
+
+
+    public String getTitle() {
+        if (title == null) {
+            title = getArguments().getString(KEY_TITLE);
+        }
+
+        return title;
     }
 }

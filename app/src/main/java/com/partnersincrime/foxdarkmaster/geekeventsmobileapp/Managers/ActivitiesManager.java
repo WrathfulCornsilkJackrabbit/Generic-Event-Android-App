@@ -120,11 +120,6 @@ public class ActivitiesManager {
             listOfActivitiesOfToday = day2;
         }
 
-        Log.d(TAG, "DEBUG ");
-        Log.d(TAG, "DEBUG Utils.isTodayBeforeEvent(): " + Utils.isTodayBeforeEvent());
-        Log.d(TAG, "DEBUG getActivitiesSelectedDay(): " + getActivitiesSelectedDay());
-        Log.d(TAG, "DEBUG Utils.isTodayDay1OfEvent(): " + Utils.isTodayDay1OfEvent());
-
         if (Utils.isTodayBeforeEvent()) {
             return null;
         } else if (Utils.isTodayAfterEvent()) {
@@ -137,9 +132,6 @@ public class ActivitiesManager {
                 activityTime = activity.getStart().split(" ")[1];
 
                 if (Utils.isActivityCurrent(activityTime)) {
-                    Log.d(TAG, "DEBUG activityTime: " + activityTime);
-                    Log.d(TAG, "DEBUG Utils.isActivityDone(activityTime): " + Utils.isActivityDone(activityTime));
-
                     listOfNextActivities.add(activity);
                 }
             }
@@ -165,11 +157,6 @@ public class ActivitiesManager {
             listOfActivitiesOfToday = day2;
         }
 
-        Log.d(TAG, "DEBUG ");
-        Log.d(TAG, "DEBUG Utils.isTodayBeforeEvent(): " + Utils.isTodayBeforeEvent());
-        Log.d(TAG, "DEBUG getActivitiesSelectedDay(): " + getActivitiesSelectedDay());
-        Log.d(TAG, "DEBUG Utils.isTodayDay1OfEvent(): " + Utils.isTodayDay1OfEvent());
-
         if (Utils.isTodayBeforeEvent()
                 && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
             return null;
@@ -181,9 +168,6 @@ public class ActivitiesManager {
                 activityTime = activity.getStart().split(" ")[1];
 
                 if (Utils.isActivityDone(activityTime)) {
-                    Log.d(TAG, "DEBUG activityTime: " + activityTime);
-                    Log.d(TAG, "DEBUG Utils.isActivityDone(activityTime): " + Utils.isActivityDone(activityTime));
-
                     listOfNextActivities.add(activity);
                 }
             }
@@ -201,5 +185,13 @@ public class ActivitiesManager {
 
     public ActivityModel getActivityToHold() {
         return activityToHold;
+    }
+
+    public ActivityModel[] getRawDataDay1() {
+        return day1;
+    }
+
+    public ActivityModel[] getRawDataDay2() {
+        return day2;
     }
 }

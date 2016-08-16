@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setTitle(getResources().getString(R.string.app_full_title));
     }
 
     private void getOnlineData() {
@@ -67,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonActivities = (Button) findViewById(R.id.buttonActivities);
         buttonMap = (Button) findViewById(R.id.buttonMap);
         buttonInformation = (Button) findViewById(R.id.buttonInfo);
+
+
+        // TODO Remove hide
+        buttonMap.setVisibility(View.GONE);
+        buttonInformation.setVisibility(View.GONE);
+
 
         buttonActivities.setOnClickListener(this);
         buttonMap.setOnClickListener(this);
@@ -99,19 +105,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean checkIfDataIsPresent() {
-        ActivityModel activitiesDay1[] = new Gson().fromJson(SPManager.getActivitiesByDay(this, 1), ActivityModel[].class);
-        ActivityModel activitiesDay2[] = new Gson().fromJson(SPManager.getActivitiesByDay(this, 2), ActivityModel[].class);
-
-        // categories = new Gson().fromJson(result.getJSONArray("data").toString(), CategoryModel[].class);
+        ActivityModel activitiesDay1[] = ActivitiesManager.getInstance().getRawDataDay1();
+        ActivityModel activitiesDay2[] = ActivitiesManager.getInstance().getRawDataDay2();
 
         if (activitiesDay1 != null && activitiesDay2 != null) {
             return true;
         } else {
             return false;
         }
-
-        //return activitiesDay1 != null ? true : false;
-
     }
 
     @Override
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResult(JSONObject result) {
-
+        /*
         try {
             //SPManager.setActivities(this, result.getJSONObject("data").toString());
 
@@ -131,11 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String resultDay2 = result.getJSONArray("2016-08-21").toString();
             SPManager.setActivitiesByDay(this, 2, resultDay2);
 
-            // TODO TEMP BYPASS
-            // TODO TEMP WAITING FOR MIGUEL's APROVAL OF BRANCH MERGE
-            // TODO TEMP REMOVE ABOVE AFTER APROVAL
-
-            /*
             JSONObject resultDay1 = result.getJSONObject("data")
                     .getJSONObject("2016-08-20");
             SPManager.setActivitiesByDay(this, 1, resultDay1.toString());
@@ -143,21 +139,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             JSONObject resultDay2 = result.getJSONObject("data")
                     .getJSONObject("2016-08-21");
             SPManager.setActivitiesByDay(this, 2, resultDay2.toString());
-            */
+
 
             setupData();
         } catch(JSONException e) {
             e.printStackTrace();
         }
+        */
 
         try {
             String resultDay1 = result.getJSONObject("data")
-                    .getJSONObject("2016-08-20")
+                    .getJSONArray("2016-08-20")
                     .toString();
             SPManager.setActivitiesByDay(this, 1, resultDay1);
 
             String resultDay2 = result.getJSONObject("data")
-                    .getJSONObject("2016-08-21")
+                    .getJSONArray("2016-08-21")
                     .toString();
             SPManager.setActivitiesByDay(this, 2, resultDay2);
 

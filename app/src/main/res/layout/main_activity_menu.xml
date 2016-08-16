@@ -68,12 +68,15 @@
             android:layout_height="wrap_content"
             android:background="@color/colorBackground"
             android:orientation="vertical"
+
             android:padding="@dimen/card_margin"
             >
 
             <ImageView
+                android:paddingTop="40dp"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="250dp"
+                android:src="@drawable/logo_mce" />
 
         </LinearLayout>
 
@@ -86,18 +89,28 @@
             android:paddingBottom="@dimen/main_margin_distances"
             android:paddingLeft="@dimen/main_margin_sides"
             android:paddingRight="@dimen/main_margin_sides"
-            >
+            android:layout_gravity="bottom">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:textAllCaps="true"
                 android:textColor="#fff"
                 android:textSize="30dp"
-                android:text="20 e 21 de Agosto"
+                android:text="20 e 21"
                  />
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="30dp"
+                android:text="de Agosto"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

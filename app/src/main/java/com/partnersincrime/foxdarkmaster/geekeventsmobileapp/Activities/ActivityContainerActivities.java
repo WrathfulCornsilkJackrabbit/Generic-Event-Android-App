@@ -1,29 +1,25 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TabHost;
 
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Adapters.MainPagerAdapter;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityCurrentFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityDoneFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.ActivityNextFragment;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Fragments.MainFragment;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.ActivitiesManager;
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.SPManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
-import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +30,7 @@ public class ActivityContainerActivities extends BaseActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-    private String activitiesDay;
+    private MainPagerAdapter pagerAdapter;
 
     private static final String TAG = "Activities";
 
@@ -56,8 +51,8 @@ public class ActivityContainerActivities extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activities_swipe_with_tabs);
 
-        setActionBar();
         setViews();
+        setActionBar();
     }
 
     private void setActionBar() {
@@ -70,11 +65,8 @@ public class ActivityContainerActivities extends BaseActivity {
 
     private void setViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        ViewPagerAdapter pagerAdapter =
-                new ViewPagerAdapter(getSupportFragmentManager(), ActivityContainerActivities.this);
-        viewPager.setAdapter(pagerAdapter);
 
-        setupViewPager(viewPager);
+        setupViewPager();
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -90,55 +82,34 @@ public class ActivityContainerActivities extends BaseActivity {
                 Log.d(TAG, "DEBUG Click on option 1 :D");
 
                 ActivitiesManager.getInstance().setActivitiesSelectedDay(1);
-                Log.d(TAG, "DEBUG Activities Manager: " + ActivitiesManager.getInstance().getActivitiesSelectedDay());
+                pagerAdapter.setNewData();
 
-                setViews();
                 return true;
             case R.id.action_day_2:
                 Log.d(TAG, "DEBUG Click on option 2 :D");
 
                 ActivitiesManager.getInstance().setActivitiesSelectedDay(2);
-                Log.d(TAG, "DEBUG Activities Manager: " + ActivitiesManager.getInstance().getActivitiesSelectedDay());
+                pagerAdapter.setNewData();
 
-                setViews();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+    private void setupViewPager() {
 
-        adapter.addFragment(new ActivityNextFragment(), getResources().getString(R.string.fragment_title_next));
-        adapter.addFragment(new ActivityCurrentFragment(), getResources().getString(R.string.fragment_title_current));
-        adapter.addFragment(new ActivityDoneFragment(), getResources().getString(R.string.fragment_title_done));
+        ArrayList<MainFragment> objs = new ArrayList<>();
 
-        viewPager.setAdapter(adapter);
-    }
+        objs.add(MainFragment.newInstance(
+                MainFragment.TYPE_NEXT, getResources().getString(R.string.fragment_title_next)));
+        objs.add(MainFragment.newInstance(
+                MainFragment.TYPE_CURRENT, getResources().getString(R.string.fragment_title_current)));
+        objs.add(MainFragment.newInstance(
+                MainFragment.TYPE_DONE, getResources().getString(R.string.fragment_title_done)));
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-        Context context;
+        pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this, objs);
 
-        public ViewPagerAdapter(FragmentManager manager, Context context) {
-            super(manager);
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() { return mFragmentList.size(); }
-
-        @Override
-        public Fragment getItem(int position) { return mFragmentList.get(position); }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) { return mFragmentTitleList.get(position); }
+        viewPager.setAdapter(pagerAdapter);
     }
 }

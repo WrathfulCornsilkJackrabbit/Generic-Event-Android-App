@@ -181,12 +181,35 @@ public class Utils {
         return false;
     }
 
-    public static boolean isActivityCurrent(String timeToCompare) {
+    public static boolean isActivityCurrent(String StartTimeToCompare, String FinishTimeToCompare) {
         String currentTime = Utils.getCurrentTime();
         int hourCurrentTime = Integer.parseInt(currentTime.split(":")[0]);
-        int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
+        int hourStartCompareTime = Integer.parseInt(StartTimeToCompare.split(":")[0]);
+        int hourFinishCompareTime = Integer.parseInt(FinishTimeToCompare.split(":")[0]);
+
         int minutesCurrentTime = Integer.parseInt(currentTime.split(":")[1]);
-        int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
+        int minutesStartCompareTime = Integer.parseInt(StartTimeToCompare.split(":")[1]);
+        int minutesFinishCompareTime = Integer.parseInt(FinishTimeToCompare.split(":")[1]);
+
+
+
+        if (hourCurrentTime >= hourStartCompareTime && hourCurrentTime <= hourFinishCompareTime) {
+            if (hourCurrentTime == hourStartCompareTime) {
+                if (minutesCurrentTime >= minutesStartCompareTime) {
+                    return true;
+                }
+            } else if (hourCurrentTime == hourFinishCompareTime) {
+                if (minutesCurrentTime <= minutesFinishCompareTime) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+
+        /*
 
         if (Math.abs(hourCurrentTime - hourCompareTime) == 0) {
             return true;
@@ -200,12 +223,16 @@ public class Utils {
         } else {
             return false;
         }
+        */
     }
 
     public static boolean isActivityDone(String timeToCompare) {
         String currentTime = Utils.getCurrentTime();
         int hourCurrentTime = Integer.parseInt(currentTime.split(":")[0]);
+        int minutesCurrentTime = Integer.parseInt(currentTime.split(":")[1]);
+
         int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
+        int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
 
 
 
@@ -214,11 +241,15 @@ public class Utils {
         } else if (isTodayAfterEvent()) {
             return true;
         } else {
-            if (Math.abs(hourCurrentTime - hourCompareTime) >= 1) {
+            if (hourCurrentTime == hourCompareTime) {
+                if (minutesCurrentTime > minutesCompareTime) {
+                    return true;
+                }
+            } else if (hourCurrentTime > hourCompareTime) {
                 return true;
-            } else {
-                return false;
             }
         }
+
+        return false;
     }
 }

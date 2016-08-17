@@ -112,7 +112,8 @@ public class ActivitiesManager {
         ActivityModel listOfActivitiesOfToday[];
         ActivityModel[] resultArray;
         List<ActivityModel> listOfNextActivities = new ArrayList<>();
-        String activityTime;
+        String activityStartTime;
+        String activityFinishTime;
 
         if (getActivitiesSelectedDay() == 1) {
             listOfActivitiesOfToday = day1;
@@ -128,10 +129,12 @@ public class ActivitiesManager {
                 (this.currentDay == 1 && Utils.isTodayDay1OfEvent()) ||
                 (this.currentDay == 2 && Utils.isTodayDay2OfEvent())
               ) {
-            for (ActivityModel activity : listOfActivitiesOfToday) {
-                activityTime = activity.getStart().split(" ")[1];
 
-                if (Utils.isActivityCurrent(activityTime)) {
+            for (ActivityModel activity : listOfActivitiesOfToday) {
+                activityStartTime = activity.getStart().split(" ")[1];
+                activityFinishTime = activity.getEnd().split(" ")[1];
+
+                if (Utils.isActivityCurrent(activityStartTime, activityFinishTime)) {
                     listOfNextActivities.add(activity);
                 }
             }
@@ -157,15 +160,14 @@ public class ActivitiesManager {
             listOfActivitiesOfToday = day2;
         }
 
-        if (Utils.isTodayBeforeEvent()
-                && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
+        if (Utils.isTodayBeforeEvent()) {
             return null;
         } else if (Utils.isTodayDay1OfEvent()
                 && getActivitiesSelectedDay() == 2) {
             return null;
         } else {
             for (ActivityModel activity : listOfActivitiesOfToday) {
-                activityTime = activity.getStart().split(" ")[1];
+                activityTime = activity.getEnd().split(" ")[1];
 
                 if (Utils.isActivityDone(activityTime)) {
                     listOfNextActivities.add(activity);

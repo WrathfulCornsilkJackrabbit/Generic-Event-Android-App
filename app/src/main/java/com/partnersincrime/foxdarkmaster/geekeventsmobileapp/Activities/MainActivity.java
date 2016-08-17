@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     private AsyncTask task;
-    private ActivityModel activities;
 
     private Toolbar toolbar;
 
@@ -122,31 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResult(JSONObject result) {
-        /*
-        try {
-            //SPManager.setActivities(this, result.getJSONObject("data").toString());
-
-            String resultDay1 = result.getJSONArray("2016-08-20").toString();
-            SPManager.setActivitiesByDay(this, 1, resultDay1);
-
-            String resultDay2 = result.getJSONArray("2016-08-21").toString();
-            SPManager.setActivitiesByDay(this, 2, resultDay2);
-
-            JSONObject resultDay1 = result.getJSONObject("data")
-                    .getJSONObject("2016-08-20");
-            SPManager.setActivitiesByDay(this, 1, resultDay1.toString());
-
-            JSONObject resultDay2 = result.getJSONObject("data")
-                    .getJSONObject("2016-08-21");
-            SPManager.setActivitiesByDay(this, 2, resultDay2.toString());
-
-
-            setupData();
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }
-        */
-
         try {
             String resultDay1 = result.getJSONObject("data")
                     .getJSONArray("2016-08-20")

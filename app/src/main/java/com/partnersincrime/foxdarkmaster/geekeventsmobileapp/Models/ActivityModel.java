@@ -15,15 +15,17 @@ public class ActivityModel implements Parcelable{
     private Bitmap imageId;
     private String image;
     private String descr;
+    private String end;
 
 
 
     public ActivityModel() { }
 
-    public ActivityModel(String title, String place, String start, String image) {
+    public ActivityModel(String title, String place, String start, String end, String image) {
         this.title = title;
         this.place = place;
         this.start = start;
+        this.end = end;
         this.image = image;
     }
 
@@ -35,6 +37,7 @@ public class ActivityModel implements Parcelable{
         imageId = in.readParcelable(Bitmap.class.getClassLoader());
         image = in.readString();
         descr = in.readString();
+        end = in.readString();
     }
 
     public static final Creator<ActivityModel> CREATOR = new Creator<ActivityModel>() {
@@ -119,5 +122,13 @@ public class ActivityModel implements Parcelable{
         parcel.writeParcelable(imageId, i);
         parcel.writeString(image);
         parcel.writeString(descr);
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 }

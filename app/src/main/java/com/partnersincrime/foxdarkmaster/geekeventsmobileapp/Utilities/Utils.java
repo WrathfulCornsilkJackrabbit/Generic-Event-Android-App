@@ -234,7 +234,17 @@ public class Utils {
         int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
         int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
 
+        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
+        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
+        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
 
+        Log.d(TAG, "DEBUG isTodayBeforeEvent(): " + isTodayBeforeEvent());
+        Log.d(TAG, "DEBUG hourCurrentTime: " + hourCurrentTime);
+        Log.d(TAG, "DEBUG minutesCurrentTime: " + minutesCurrentTime);
+        Log.d(TAG, "DEBUG hourCompareTime: " + hourCompareTime);
+        Log.d(TAG, "DEBUG minutesCompareTime: " + minutesCompareTime);
+        Log.d(TAG, "DEBUG isTodayBeforeEvent: " + isTodayBeforeEvent());
+        Log.d(TAG, "DEBUG isTodayAfterEvent: " + isTodayAfterEvent());
 
         if (isTodayBeforeEvent()) {
             return false;

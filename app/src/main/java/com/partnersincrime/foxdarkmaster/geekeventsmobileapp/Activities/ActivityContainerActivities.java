@@ -97,6 +97,15 @@ public class ActivityContainerActivities extends BaseActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "DEBUG onResume()");
+
+        pagerAdapter.setNewData();
+    }
+
     private void setupViewPager() {
 
         ArrayList<MainFragment> objs = new ArrayList<>();

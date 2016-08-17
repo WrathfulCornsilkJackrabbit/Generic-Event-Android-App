@@ -51,6 +51,28 @@
                     android:layout_marginLeft="@dimen/card_margin"
                     android:layout_marginTop="10dp" />
 
+                <TextView
+                    android:id="@+id/detail_card_until"
+                    android:text="~"
+                    android:textSize="16dp"
+                    android:textColor="@color/TitleColorSecondary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/card_margin"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/detail_card_hour_end"
+                    android:text="10h00"
+                    android:textSize="16dp"
+                    android:textColor="@color/TitleColorSecondary"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/card_margin"
+                    android:layout_marginTop="10dp" />
+
             </LinearLayout>
 
             <LinearLayout

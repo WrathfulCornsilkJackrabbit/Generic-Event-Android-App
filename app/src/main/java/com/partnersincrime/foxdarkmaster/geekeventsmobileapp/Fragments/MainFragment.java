@@ -66,6 +66,12 @@ public class MainFragment extends Fragment {
     }
 
     public void setData() {
+
+        Log.d(TAG, "DEBUG mType: " + mType);
+        Log.d(TAG, "DEBUG getNextActivitiesData: " + ActivitiesManager.getInstance().getNextActivitiesData());
+        Log.d(TAG, "DEBUG getCurrentActivitiesData: " + ActivitiesManager.getInstance().getCurrentActivitiesData());
+        Log.d(TAG, "DEBUG getDoneActivitiesData: " + ActivitiesManager.getInstance().getDoneActivitiesData());
+
         switch (mType) {
             case TYPE_NEXT:
                 currentDay = ActivitiesManager.getInstance().getNextActivitiesData();

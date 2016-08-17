@@ -74,29 +74,39 @@ public class ActivitiesManager {
         }
     }
 
+    public ActivityModel[] getActivitiesOfSelectedDay() {
+        if (getActivitiesSelectedDay() == 1) {
+            return day1;
+        } else {
+            return day2;
+        }
+    }
+
     public ActivityModel[] getNextActivitiesData() {
         ActivityModel listOfActivitiesOfToday[];
-        ActivityModel[] resultArray;
+        ActivityModel[] resultArray = new ActivityModel[0];
         List<ActivityModel> listOfNextActivities = new ArrayList<>();
-        String activityTime;
+        String activityStartTime;
+        String activityDoneTime;
 
-        if (getActivitiesSelectedDay() == 1) {
-            listOfActivitiesOfToday = day1;
-        } else {
-            listOfActivitiesOfToday = day2;
-        }
+        listOfActivitiesOfToday = getActivitiesOfSelectedDay();
 
         if (Utils.isTodayBeforeEvent()
                 && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
-            return listOfActivitiesOfToday;
-        } else if (Utils.isTodayDay1OfEvent()
-                && getActivitiesSelectedDay() == 2) {
-            return listOfActivitiesOfToday;
+            return resultArray;
+        } else if (
+                (Utils.isTodayDay1OfEvent() && getActivitiesSelectedDay() == 2) ||
+                (Utils.isTodayDay2OfEvent() && getActivitiesSelectedDay() == 1)
+                ) {
+            return resultArray;
         } else {
             for (ActivityModel activity : listOfActivitiesOfToday) {
-                activityTime = activity.getStart().split(" ")[1];
+                activityStartTime = activity.getStart().split(" ")[1];
+                activityDoneTime = activity.getStart().split(" ")[1];
 
-                if (!Utils.isCurrentTimeBiggerThan(activityTime)) {
+                if (!Utils.isActivityCurrent(activityStartTime, activityDoneTime)
+                        && !Utils.isActivityDone(activityDoneTime)) {
+
                     listOfNextActivities.add(activity);
                 }
             }
@@ -110,21 +120,17 @@ public class ActivitiesManager {
 
     public ActivityModel[] getCurrentActivitiesData() {
         ActivityModel listOfActivitiesOfToday[];
-        ActivityModel[] resultArray;
+        ActivityModel[] resultArray = new ActivityModel[0];
         List<ActivityModel> listOfNextActivities = new ArrayList<>();
         String activityStartTime;
         String activityFinishTime;
 
-        if (getActivitiesSelectedDay() == 1) {
-            listOfActivitiesOfToday = day1;
-        } else {
-            listOfActivitiesOfToday = day2;
-        }
+        listOfActivitiesOfToday = getActivitiesOfSelectedDay();
 
         if (Utils.isTodayBeforeEvent()) {
-            return null;
+            return resultArray;
         } else if (Utils.isTodayAfterEvent()) {
-            return null;
+            return resultArray;
         } else if (
                 (this.currentDay == 1 && Utils.isTodayDay1OfEvent()) ||
                 (this.currentDay == 2 && Utils.isTodayDay2OfEvent())
@@ -150,21 +156,20 @@ public class ActivitiesManager {
 
     public ActivityModel[] getDoneActivitiesData() {
         ActivityModel listOfActivitiesOfToday[];
-        ActivityModel[] resultArray;
+        ActivityModel[] resultArray = new ActivityModel[0];
         List<ActivityModel> listOfNextActivities = new ArrayList<>();
         String activityTime;
 
-        if (getActivitiesSelectedDay() == 1) {
-            listOfActivitiesOfToday = day1;
-        } else {
-            listOfActivitiesOfToday = day2;
-        }
+        listOfActivitiesOfToday = getActivitiesOfSelectedDay();
 
         if (Utils.isTodayBeforeEvent()) {
-            return null;
+            return resultArray;
         } else if (Utils.isTodayDay1OfEvent()
                 && getActivitiesSelectedDay() == 2) {
-            return null;
+            return resultArray;
+        } else if (Utils.isTodayDay2OfEvent()
+                && getActivitiesSelectedDay() == 1) {
+            return listOfActivitiesOfToday;
         } else {
             for (ActivityModel activity : listOfActivitiesOfToday) {
                 activityTime = activity.getEnd().split(" ")[1];

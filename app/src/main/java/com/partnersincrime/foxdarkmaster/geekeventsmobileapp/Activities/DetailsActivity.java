@@ -23,6 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     protected TextView mTitleView;
     protected TextView mTimeStartView;
+    protected TextView mTimeEndView;
     protected TextView mLocationView;
     protected ImageView mImageView;
     protected TextView mDescriptionView;
@@ -50,12 +51,14 @@ public class DetailsActivity extends AppCompatActivity {
         Log.d(TAG, "DEBUG test selected values");
         Log.d(TAG, "DEBUG getTitle: " + activity.getTitle());
         Log.d(TAG, "DEBUG getStart: " + activity.getStart());
+        Log.d(TAG, "DEBUG getEnd: " + activity.getEnd());
         Log.d(TAG, "DEBUG getPlace: " + activity.getPlace());
         Log.d(TAG, "DEBUG getDescr: " + activity.getDescr());
         Log.d(TAG, "DEBUG getImage: " + activity.getImage());
 
         mTitleView.setText(activity.getTitle());
-        mTimeStartView.setText(activity.getStart());
+        mTimeStartView.setText(activity.getStart().split(" ")[1]);
+        mTimeEndView.setText(activity.getEnd().split(" ")[1]);
         mLocationView.setText(activity.getPlace());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -81,6 +84,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void setViews() {
         mTitleView = (TextView) findViewById(R.id.detail_card_title);
         mTimeStartView = (TextView) findViewById(R.id.detail_card_hour_start);
+        mTimeEndView = (TextView) findViewById(R.id.detail_card_hour_end);
         mLocationView = (TextView) findViewById(R.id.detail_card_location);
         mImageView = (ImageView) findViewById(R.id.detail_card_image);
 

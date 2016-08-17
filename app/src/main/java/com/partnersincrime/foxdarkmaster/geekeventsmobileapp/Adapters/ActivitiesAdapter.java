@@ -91,6 +91,10 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
     }
 
     public void reloadData(ActivityModel[] currentDay) {
+        if (currentDay == null) {
+            currentDay = new ActivityModel[0];
+        }
+
         this.activitiesList = Arrays.asList(currentDay);
     }
 

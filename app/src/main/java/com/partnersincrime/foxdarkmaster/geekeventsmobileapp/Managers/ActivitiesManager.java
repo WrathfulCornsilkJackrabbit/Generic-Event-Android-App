@@ -93,11 +93,23 @@ public class ActivitiesManager {
 
         if (Utils.isTodayBeforeEvent()
                 && (getActivitiesSelectedDay() == 1 || getActivitiesSelectedDay() == 2)) {
-            return resultArray;
+            return listOfActivitiesOfToday;
         } else if (
                 (Utils.isTodayDay1OfEvent() && getActivitiesSelectedDay() == 2) ||
                 (Utils.isTodayDay2OfEvent() && getActivitiesSelectedDay() == 1)
                 ) {
+
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+            Log.d(TAG, "DEBUG Should be here");
+
             return resultArray;
         } else {
             for (ActivityModel activity : listOfActivitiesOfToday) {

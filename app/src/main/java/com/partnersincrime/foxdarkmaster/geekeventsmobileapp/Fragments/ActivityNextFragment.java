@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import static com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Ut
  * A placeholder fragment containing a simple view.
  */
 public class ActivityNextFragment extends Fragment {
+    private static final String TAG = "ActivityNextFragment";
     View rootView;
     TextView mEmptyView;
     RecyclerView mRecyclerView;
@@ -66,7 +68,12 @@ public class ActivityNextFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_activities);
         mEmptyView = (TextView) rootView.findViewById(R.id.empty_view);
 
-        if (currentDay == null) {
+        if (currentDay == null || currentDay.length == 0) {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else if (currentDay.length == 0 && currentDay[0] == null) {
+            Log.d(TAG, "DEBUG Una Banana!");
+
             mRecyclerView.setVisibility(View.GONE);
             mEmptyView.setVisibility(View.VISIBLE);
         } else {

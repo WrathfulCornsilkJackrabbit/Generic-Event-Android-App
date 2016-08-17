@@ -66,12 +66,6 @@ public class MainFragment extends Fragment {
     }
 
     public void setData() {
-
-        Log.d(TAG, "DEBUG mType: " + mType);
-        Log.d(TAG, "DEBUG getNextActivitiesData: " + ActivitiesManager.getInstance().getNextActivitiesData());
-        Log.d(TAG, "DEBUG getCurrentActivitiesData: " + ActivitiesManager.getInstance().getCurrentActivitiesData());
-        Log.d(TAG, "DEBUG getDoneActivitiesData: " + ActivitiesManager.getInstance().getDoneActivitiesData());
-
         switch (mType) {
             case TYPE_NEXT:
                 currentDay = ActivitiesManager.getInstance().getNextActivitiesData();
@@ -97,7 +91,7 @@ public class MainFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_activities);
         mEmptyView = (TextView) rootView.findViewById(R.id.empty_view);
 
-        if (currentDay == null) {
+        if (currentDay == null || currentDay.length == 0) {
             mRecyclerView.setVisibility(View.GONE);
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
@@ -109,7 +103,6 @@ public class MainFragment extends Fragment {
             mLayoutManager = new LinearLayoutManager(getActivity());
             mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-
 
             mAdapter = new ActivitiesAdapter(Arrays.asList(currentDay));
             mRecyclerView.setAdapter(mAdapter);

@@ -26,9 +26,6 @@ import java.util.List;
 public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ViewHolder> {
     private List<ActivityModel> activitiesList;
 
-    private static final String TAG = "ActivitiesAdapter";
-
-
     public ActivitiesAdapter(List<ActivityModel> activitiesList) {
         this.activitiesList = activitiesList;
     }
@@ -53,6 +50,11 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
         } else {
             imageUrl = "http://dummyimage.com/vga";
         }
+
+        holder.mTitleView.setTypeface(Utils.getTitleFont(holder.mTitleView.getContext()));
+        holder.mTimeStartView.setTypeface(Utils.getRegularBoldFont(holder.mTimeStartView.getContext()));
+        holder.mLocationView.setTypeface(Utils.getRegularFont(holder.mLocationView.getContext()));
+        holder.mReadMoreView.setTypeface(Utils.getRegularBoldFont(holder.mReadMoreView.getContext()));
 
         Glide
             .with(holder.mImageView.getContext())

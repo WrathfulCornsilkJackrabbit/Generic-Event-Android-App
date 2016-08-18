@@ -7,7 +7,7 @@
     android:background="@color/colorBackground"
     >
 
-    <include layout="@layout/layout_main_navigation"/>
+
 
     <LinearLayout
         android:id="@+id/main_navigation_menu"
@@ -19,6 +19,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/buttonActivities"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,10 +27,10 @@
             android:text="Actividades"
             android:textColor="#fff"
             android:background="@drawable/mainbuttonshape"
-            android:id="@+id/buttonActivities"
             />
 
         <Button
+            android:id="@+id/buttonMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,10 +38,10 @@
             android:text="Ver Mapa"
             android:textColor="#fff"
             android:background="@drawable/mainbuttonshape"
-            android:id="@+id/buttonMap"
             />
 
         <Button
+            android:id="@+id/buttonInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,7 +49,6 @@
             android:text="Informações"
             android:textColor="#fff"
             android:background="@drawable/mainbuttonshape"
-            android:id="@+id/buttonInfo"
             />
 
     </LinearLayout>
@@ -67,16 +67,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBackground"
-            android:orientation="vertical"
+            android:orientation="horizontal"
 
             android:padding="@dimen/card_margin"
             >
 
             <ImageView
-                android:paddingTop="40dp"
-                android:layout_width="match_parent"
+                android:src="@drawable/logo_mce"
+                android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:src="@drawable/logo_mce" />
+                android:paddingTop="40dp"
+                android:layout_gravity="left"
+                android:scaleType="fitStart"
+                />
 
         </LinearLayout>
 
@@ -92,6 +95,8 @@
             android:layout_gravity="bottom">
 
             <TextView
+                android:id="@+id/main_text_event_days"
+                android:lineSpacingExtra="0sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -102,6 +107,8 @@
                 android:text="20 e 21"
                  />
             <TextView
+                android:id="@+id/main_text_event_month"
+                android:lineSpacingExtra="0sp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -113,6 +120,7 @@
                 />
 
             <TextView
+                android:id="@+id/main_text_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -127,13 +135,15 @@
                 />
 
             <TextView
+                android:id="@+id/main_text_greeting"
+                android:lineSpacingExtra="0sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:textAllCaps="true"
                 android:textColor="#fff"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 android:text="Bem vindo ao maior evento cultural do algarve"
                 />
 

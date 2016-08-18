@@ -104,7 +104,6 @@ public class ActivityModel implements Parcelable{
 
     public String getImage() {
         if (hasImages()) {
-            Log.d(TAG, "DEBUG images" + this.image);
         }
 
         return image;

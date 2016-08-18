@@ -48,14 +48,6 @@ public class DetailsActivity extends AppCompatActivity {
         String imageUrl;
         activity = ActivitiesManager.getInstance().getActivityToHold();
 
-        Log.d(TAG, "DEBUG test selected values");
-        Log.d(TAG, "DEBUG getTitle: " + activity.getTitle());
-        Log.d(TAG, "DEBUG getStart: " + activity.getStart());
-        Log.d(TAG, "DEBUG getEnd: " + activity.getEnd());
-        Log.d(TAG, "DEBUG getPlace: " + activity.getPlace());
-        Log.d(TAG, "DEBUG getDescr: " + activity.getDescr());
-        Log.d(TAG, "DEBUG getImage: " + activity.getImage());
-
         mTitleView.setText(activity.getTitle());
         mTimeStartView.setText(activity.getStart().split(" ")[1]);
         mTimeEndView.setText(activity.getEnd().split(" ")[1]);
@@ -66,6 +58,12 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             mDescriptionView.setText(Html.fromHtml(activity.getDescr()));
         }
+
+        mTitleView.setTypeface(Utils.getTitleFont(this));
+        mLocationView.setTypeface(Utils.getSubTitleFont(this));
+        mTimeStartView.setTypeface(Utils.getRegularBoldFont(this));
+        mTimeEndView.setTypeface(Utils.getRegularBoldFont(this));
+        mDescriptionView.setTypeface(Utils.getRegularFont(this));
 
         if (activity.hasImages()) {
             imageUrl = Utils.getUrlForImage(activity.getImage());

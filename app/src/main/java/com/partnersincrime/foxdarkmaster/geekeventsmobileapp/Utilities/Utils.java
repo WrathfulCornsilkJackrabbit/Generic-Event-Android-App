@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -208,22 +209,6 @@ public class Utils {
         }
 
         return false;
-
-        /*
-
-        if (Math.abs(hourCurrentTime - hourCompareTime) == 0) {
-            return true;
-        } else if (hourCompareTime <= hourCurrentTime
-                && Math.abs(hourCurrentTime - hourCompareTime) <= 1) {
-            if ((60 - minutesCompareTime) + minutesCurrentTime >= 60) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-        */
     }
 
     public static boolean isActivityDone(String timeToCompare) {
@@ -233,18 +218,6 @@ public class Utils {
 
         int hourCompareTime = Integer.parseInt(timeToCompare.split(":")[0]);
         int minutesCompareTime = Integer.parseInt(timeToCompare.split(":")[1]);
-
-        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
-        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
-        Log.d(TAG, "DEBUG INSIDE IS ACTIVITY DONE!!!!!");
-
-        Log.d(TAG, "DEBUG isTodayBeforeEvent(): " + isTodayBeforeEvent());
-        Log.d(TAG, "DEBUG hourCurrentTime: " + hourCurrentTime);
-        Log.d(TAG, "DEBUG minutesCurrentTime: " + minutesCurrentTime);
-        Log.d(TAG, "DEBUG hourCompareTime: " + hourCompareTime);
-        Log.d(TAG, "DEBUG minutesCompareTime: " + minutesCompareTime);
-        Log.d(TAG, "DEBUG isTodayBeforeEvent: " + isTodayBeforeEvent());
-        Log.d(TAG, "DEBUG isTodayAfterEvent: " + isTodayAfterEvent());
 
         if (isTodayBeforeEvent()) {
             return false;
@@ -261,5 +234,21 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static Typeface getTitleFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/Azo Sans Uber W01 Regular.otf");
+    }
+
+    public static Typeface getSubTitleFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/Rui Abreu - AzoSans-Medium.otf");
+    }
+
+    public static Typeface getRegularFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/Rui Abreu - AzoSans-Light.otf");
+    }
+
+    public static Typeface getRegularBoldFont(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "fonts/Rui Abreu - AzoSans-Bold.otf");
     }
 }

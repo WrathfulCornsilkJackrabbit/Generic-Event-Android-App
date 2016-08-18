@@ -32,8 +32,6 @@ public class ActivityContainerActivities extends BaseActivity {
     private ViewPager viewPager;
     private MainPagerAdapter pagerAdapter;
 
-    private static final String TAG = "Activities";
-
     @Override
     protected int getLayoutResource() {
         return R.layout.activities_swipe_with_tabs;
@@ -41,8 +39,8 @@ public class ActivityContainerActivities extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_container, menu);
+
         return true;
     }
 
@@ -79,15 +77,11 @@ public class ActivityContainerActivities extends BaseActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_day_1:
-                Log.d(TAG, "DEBUG Click on option 1 :D");
-
                 ActivitiesManager.getInstance().setActivitiesSelectedDay(1);
                 pagerAdapter.setNewData();
 
                 return true;
             case R.id.action_day_2:
-                Log.d(TAG, "DEBUG Click on option 2 :D");
-
                 ActivitiesManager.getInstance().setActivitiesSelectedDay(2);
                 pagerAdapter.setNewData();
 
@@ -100,8 +94,6 @@ public class ActivityContainerActivities extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        Log.d(TAG, "DEBUG onResume()");
 
         pagerAdapter.setNewData();
     }

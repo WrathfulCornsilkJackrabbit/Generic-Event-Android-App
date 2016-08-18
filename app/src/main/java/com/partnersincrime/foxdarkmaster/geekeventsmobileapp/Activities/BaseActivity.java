@@ -4,17 +4,20 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Managers.LocaleManager;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
+import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Utilities.Utils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
+    protected View toolbarView;
+    protected TextView mToolbarTitle;
     protected abstract int getLayoutResource();
-
-    private static final String TAG = "Base Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         LocaleManager.loadLocale(this);
         setContentView(getLayoutResource());
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null){
             setSupportActionBar(toolbar);
@@ -57,6 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(up);
         }
+    }
+
+    private void setupToolbar() {
+
     }
 
     @Override

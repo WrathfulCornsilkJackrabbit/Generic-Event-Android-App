@@ -1,23 +1,11 @@
 package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Activities;
 
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.partnersincrime.foxdarkmaster.geekeventsmobileapp.R;
 
 import uk.co.senab.photoview.PhotoViewAttacher;

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -35,6 +36,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Button buttonMap;
     private Button buttonInformation;
 
+    private TextView mMainTextDays;
+    private TextView mMainTextMonth;
+    private TextView mMainTextLocation;
+    private TextView mMainTextGreeting;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.main_activity_menu;
@@ -46,16 +52,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main_activity_menu);
 
-        setActionBar();
         getOnlineData();
         setupInterface();
-    }
-
-    private void setActionBar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_full_title));
     }
 
     private void getOnlineData() {
@@ -71,10 +69,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         buttonActivities = (Button) findViewById(R.id.buttonActivities);
         buttonMap = (Button) findViewById(R.id.buttonMap);
         buttonInformation = (Button) findViewById(R.id.buttonInfo);
+        //
+        mMainTextDays = (TextView) findViewById(R.id.main_text_event_days);
+        mMainTextMonth = (TextView) findViewById(R.id.main_text_event_month);
+        mMainTextLocation = (TextView) findViewById(R.id.main_text_location);
+        mMainTextGreeting = (TextView) findViewById(R.id.main_text_greeting);
 
+        buttonActivities.setTypeface(Utils.getRegularFont(this));
+        buttonMap.setTypeface(Utils.getRegularFont(this));
+        buttonInformation.setTypeface(Utils.getRegularFont(this));
 
-        // TODO Remove hide
-        //buttonMap.setVisibility(View.GONE);
+        mMainTextDays.setTypeface(Utils.getTitleFont(this));
+        mMainTextMonth.setTypeface(Utils.getTitleFont(this));
+        mMainTextLocation.setTypeface(Utils.getRegularBoldFont(this));
+        mMainTextGreeting.setTypeface(Utils.getRegularBoldFont(this));
+
+        // TODO Temporarely hide information option
         buttonInformation.setVisibility(View.GONE);
 
 

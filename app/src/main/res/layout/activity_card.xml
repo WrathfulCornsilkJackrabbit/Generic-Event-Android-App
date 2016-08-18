@@ -75,6 +75,7 @@
                 <TextView
                     android:id="@+id/card_title"
                     android:text="Entrevista a Mário Freitas"
+                    android:lineSpacingExtra="-5sp"
                     android:textStyle="bold"
                     android:textColor="@color/TitleColorMain"
                     android:textSize="24dp"
@@ -94,8 +95,8 @@
 
                 <View
                     android:layout_width="fill_parent"
-                    android:layout_height="3dp"
-                    android:background="#707070"
+                    android:layout_height="2dp"
+                    android:background="#000"
                     android:layout_marginLeft="@dimen/card_margin"
                     android:layout_marginRight="@dimen/card_margin"
                     />
@@ -112,6 +113,7 @@
                     android:id="@+id/card_read_more"
                     android:text="@string/readMore"
                     android:textSize="16dp"
+                    android:textColor="@color/TitleColorSecondary"
                     android:textAllCaps="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"

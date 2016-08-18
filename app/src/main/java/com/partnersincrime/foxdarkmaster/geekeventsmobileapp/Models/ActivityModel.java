@@ -3,11 +3,13 @@ package com.partnersincrime.foxdarkmaster.geekeventsmobileapp.Models;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Created by foxdarkmaster on 11-07-2016.
  */
 public class ActivityModel implements Parcelable{
+    private static final String TAG = "Activity Model";
     private int id;
     private String title;
     private String place;
@@ -101,6 +103,10 @@ public class ActivityModel implements Parcelable{
     }
 
     public String getImage() {
+        if (hasImages()) {
+            Log.d(TAG, "DEBUG images" + this.image);
+        }
+
         return image;
     }
 

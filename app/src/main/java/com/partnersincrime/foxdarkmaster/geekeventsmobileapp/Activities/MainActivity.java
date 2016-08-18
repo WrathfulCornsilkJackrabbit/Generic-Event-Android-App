@@ -23,7 +23,7 @@ import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataTask.IConnectionListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, DataTask.IConnectionListener {
 
     private static final String TAG = "MainActivity";
 
@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonActivities;
     private Button buttonMap;
     private Button buttonInformation;
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.main_activity_menu;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // TODO Remove hide
-        buttonMap.setVisibility(View.GONE);
+        //buttonMap.setVisibility(View.GONE);
         buttonInformation.setVisibility(View.GONE);
 
 

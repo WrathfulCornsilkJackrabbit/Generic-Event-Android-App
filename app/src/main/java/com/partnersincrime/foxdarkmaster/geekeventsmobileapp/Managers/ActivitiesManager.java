@@ -98,18 +98,6 @@ public class ActivitiesManager {
                 (Utils.isTodayDay1OfEvent() && getActivitiesSelectedDay() == 2) ||
                 (Utils.isTodayDay2OfEvent() && getActivitiesSelectedDay() == 1)
                 ) {
-
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-            Log.d(TAG, "DEBUG Should be here");
-
             return resultArray;
         } else {
             for (ActivityModel activity : listOfActivitiesOfToday) {
